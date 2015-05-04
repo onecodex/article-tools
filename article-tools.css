@@ -1,0 +1,45 @@
+:host {
+  display: block;
+  height: 3rem;
+  padding: 1rem;
+  background: #f6f6f6;
+  overflow-y: visible;
+}
+
+.article-tools {
+  margin-right: 5px;
+}
+
+.article-tool {
+  display: inline-block;
+  z-index: 10;
+  border-radius: 2px;
+  margin-bottom: 2px;
+}
+
+.article-tool-text {
+  display: inline-block;
+  padding: 3px 10px;
+  background: #fff;
+  border: 1px solid #ddd;
+  color: #aaa;
+  font-weight: 100;
+}
+
+.article-tool:hover .article-tool-text {
+  border-color: #92C029;
+  color: #92C029;
+}
+
+.article-tool core-icon {
+  width: 3rem;
+  height: 3rem;
+  background: #ccc;
+  color: #fff;
+  cursor: pointer;
+  filter: drop-shadow(0 1px 2px #aaa);
+}
+
+.article-tool:hover core-icon {
+  background: #92C029;
+}
