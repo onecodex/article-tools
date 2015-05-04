@@ -19,12 +19,22 @@ Element providing tools relating to an article.
   <template>
     <link rel="stylesheet" href="article-tools.css">
 
-    <div layout horizontal>
-      <div layout vertical class="article-tools">
-        <span class="article-tool article-tool-control"
-          title="Share this article"
-          on-tap="{{ toggleShareTools }}"><core-icon icon="article:share"></core-icon></span>
+    <div layout horizontal end-justified>
+      <div layout horizontal class="article-tools article-tools-annotate">
+        <a class="article-tool" hidden?="{{ hideAnnotationTools }}" target="_blank"
+          title="Annotate this article with hypothes.is"
+          href="{{ hypothesisURL }}"><span class="article-tool-text">Hypothesis</span></a>
 
+        <a class="article-tool" hidden?="{{ hideAnnotationTools }}" target="_blank"
+          title="Annotate this article with Genius"
+          href="{{ geniusURL }}"><span class="article-tool-text">Genius</span></a>
+
+        <span class="article-tool article-tool-control" hidden?="{{ !hideShareTools }}"
+          title="Annotate this article"
+          on-tap="{{ toggleAnnotationTools }}"><core-icon icon="article:comment"></core-icon></span>
+      </div>
+
+      <div layout horizontal class="article-tools article-tools-share">
         <a class="article-tool" hidden?="{{ hideShareTools }}" target="_blank"
           title="Share this article on Twitter"
           href="{{ twitterURL }}"><core-icon icon="article:post-twitter"></core-icon></a>
@@ -33,25 +43,19 @@ Element providing tools relating to an article.
           title="Share this article on Facebook"
           href="{{ facebookURL }}"><core-icon icon="article:post-facebook"></core-icon></a>
 
+        <a class="article-tool" hidden?="{{ hideShareTools }}" target="_blank"
+          title="Share this article on Google+"
+          href="{{ googlePlusURL }}"><core-icon icon="article:post-gplus"></core-icon></a>
+
         <template if="{{ github }}">
           <a class="article-tool" hidden?="{{ hideShareTools }}" target="_blank"
             title="Fork this article on GitHub"
             href="https://github.com/{{ github }}"><core-icon icon="article:post-github"></core-icon></a>
         </template>
-      </div>
 
-      <div layout vertical class="article-tools">
         <span class="article-tool article-tool-control"
-          title="Annotate this article"
-          on-tap="{{ toggleAnnotationTools }}"><core-icon icon="article:comment"></core-icon></span>
-
-        <a class="article-tool" hidden?="{{ hideAnnotationTools }}" target="_blank"
-          title="Annotate this article with hypothes.is"
-          href="{{ hypothesisURL }}"><span class="article-tool-text">Hypothesis</span></a>
-
-        <a class="article-tool" hidden?="{{ hideAnnotationTools }}" target="_blank"
-          title="Annotate this article with Genius"
-          href="{{ geniusURL }}"><span class="article-tool-text">Genius</span></a>
+          title="Share this article"
+          on-tap="{{ toggleShareTools }}"><core-icon icon="article:share"></core-icon></span>
       </div>
     </div>
   </template>
@@ -69,6 +73,10 @@ Element providing tools relating to an article.
       },
       urlChanged: function() {
         this.twitterURL = 'https://twitter.com/intent/tweet?' + $.param({
+          url: this.url
+        });
+
+        this.googlePlusURL = 'https://plus.google.com/share?' + $.param({
           url: this.url
         });
 
