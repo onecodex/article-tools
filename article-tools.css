@@ -1,6 +1,5 @@
 :host {
-  display: block;
-  height: 3rem;
+  display: inline-block;
   vertical-align: middle;
 }
 
@@ -10,13 +9,13 @@
 
 .article-tool {
   display: inline-block;
-  z-index: 10;
   border-radius: 2px;
 }
 
 .article-tool-text {
   display: inline-block;
   padding: 2px 10px;
+  font-size: 15px;
   font-weight: 200;
   color: #444;
   border-radius: 2px;
@@ -30,8 +29,6 @@
 }
 
 .article-tool core-icon {
-  width: 3rem;
-  height: 3rem;
   color: #777;
   cursor: pointer;
 }
