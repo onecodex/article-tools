@@ -1,0 +1,95 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="article-icons.html">
+
+<!--
+Element providing tools relating to an article.
+
+##### Example
+
+  <article>
+    <article-tools url="http://example.com/"></article-tools>
+  </article>
+
+@element article-tools
+@blurb Element providing tools related to an article.
+@status alpha
+@homepage https://github.com/peerj/article-tools
+-->
+<polymer-element name="article-tools" attributes="url github">
+  <template>
+    <link rel="stylesheet" href="article-tools.css">
+
+    <div layout horizontal end-justified>
+      <div layout horizontal class="article-tools article-tools-annotate">
+        <a class="article-tool" hidden?="{{ hideAnnotationTools }}" target="_blank"
+          title="Annotate this article with hypothes.is"
+          href="{{ hypothesisURL }}"><span class="article-tool-text">Hypothesis</span></a>
+
+        <a class="article-tool" hidden?="{{ hideAnnotationTools }}" target="_blank"
+          title="Annotate this article with Genius"
+          href="{{ geniusURL }}"><span class="article-tool-text">Genius</span></a>
+
+        <span class="article-tool article-tool-control" hidden?="{{ !hideShareTools }}"
+          title="Annotate this article"
+          on-tap="{{ toggleAnnotationTools }}"><core-icon icon="article:comment"></core-icon></span>
+      </div>
+
+      <div layout horizontal class="article-tools article-tools-share">
+        <a class="article-tool" hidden?="{{ hideShareTools }}" target="_blank"
+          title="Share this article on Twitter"
+          href="{{ twitterURL }}"><core-icon icon="article:post-twitter"></core-icon></a>
+
+        <a class="article-tool" hidden?="{{ hideShareTools }}" target="_blank"
+          title="Share this article on Facebook"
+          href="{{ facebookURL }}"><core-icon icon="article:post-facebook"></core-icon></a>
+
+        <a class="article-tool" hidden?="{{ hideShareTools }}" target="_blank"
+          title="Share this article on Google+"
+          href="{{ googlePlusURL }}"><core-icon icon="article:post-gplus"></core-icon></a>
+
+        <template if="{{ github }}">
+          <a class="article-tool" hidden?="{{ hideShareTools }}" target="_blank"
+            title="Fork this article on GitHub"
+            href="https://github.com/{{ github }}"><core-icon icon="article:post-github"></core-icon></a>
+        </template>
+
+        <span class="article-tool article-tool-control"
+          title="Share this article"
+          on-tap="{{ toggleShareTools }}"><core-icon icon="article:share"></core-icon></span>
+      </div>
+    </div>
+  </template>
+  <script>
+    Polymer({
+      hideShareTools: true,
+      hideAnnotationTools: true,
+      toggleShareTools: function() {
+        this.hideAnnotationTools = true;
+        this.hideShareTools = !this.hideShareTools;
+      },
+      toggleAnnotationTools: function() {
+        this.hideShareTools = true;
+        this.hideAnnotationTools = !this.hideAnnotationTools;
+      },
+      urlChanged: function() {
+        this.twitterURL = 'https://twitter.com/intent/tweet?' + $.param({
+          url: this.url
+        });
+
+        this.googlePlusURL = 'https://plus.google.com/share?' + $.param({
+          url: this.url
+        });
+
+        this.facebookURL = 'https://www.facebook.com/dialog/share?' + $.param({
+          redirect_uri: 'https://peerj.github.io/article-tools/close.html',
+          app_id: '374861959379602',
+          display: 'popup',
+          href: this.url,
+        });
+
+        this.hypothesisURL = 'https://via.hypothes.is/' + this.url;
+        this.geniusURL = 'https://genius.it/' + this.url;
+      }
+    });
+  </script>
+</polymer-element>

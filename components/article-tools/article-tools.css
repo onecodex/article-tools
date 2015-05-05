@@ -1,0 +1,42 @@
+:host {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.article-tools {
+  margin-right: 5px;
+}
+
+.article-tool {
+  display: inline-block;
+  border-radius: 2px;
+}
+
+.article-tool-text {
+  display: inline-block;
+  padding: 2px 10px;
+  font-size: 15px;
+  font-weight: 200;
+  color: #444;
+  border-radius: 2px;
+  margin-right: 2px;
+  margin-left: 2px;
+}
+
+.article-tool:hover .article-tool-text {
+  background: #92C029;
+  color: white;
+}
+
+.article-tool core-icon {
+  color: #777;
+  cursor: pointer;
+}
+
+.article-tool-control core-icon {
+  color: #ccc;
+}
+
+.article-tool:hover core-icon {
+  color: #92C029;
+}
