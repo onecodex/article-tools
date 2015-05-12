@@ -1,6 +1,7 @@
 :host {
   display: inline-block;
   vertical-align: middle;
+  background: #eee;
 }
 
 .article-tools {

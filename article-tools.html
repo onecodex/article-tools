@@ -20,18 +20,26 @@ Element providing tools relating to an article.
     <link rel="stylesheet" href="article-tools.css">
 
     <div layout horizontal end-justified>
-      <div layout horizontal class="article-tools article-tools-annotate">
+      <div layout vertical class="article-tools article-tools-annotate">
+        <div layout horizontal end-justified>
+          <span class="article-tool article-tool-control" hidden?="{{ !hideShareTools }}"
+            title="Annotate this article"
+            on-tap="{{ toggleAnnotationTools }}"><core-icon icon="article:comment"></core-icon></span>
+        </div>
+
         <a class="article-tool" hidden?="{{ hideAnnotationTools }}" target="_blank"
           title="Annotate this article with hypothes.is"
-          href="{{ hypothesisURL }}"><span class="article-tool-text">Hypothesis</span></a>
+          href="{{ hypothesisURL }}"><span class="article-tool-text">Annotate in Hypothesis</span></a>
 
         <a class="article-tool" hidden?="{{ hideAnnotationTools }}" target="_blank"
           title="Annotate this article with Genius"
-          href="{{ geniusURL }}"><span class="article-tool-text">Genius</span></a>
+          href="{{ geniusURL }}"><span class="article-tool-text">Annotate in Genius</span></a>
 
-        <span class="article-tool article-tool-control" hidden?="{{ !hideShareTools }}"
-          title="Annotate this article"
-          on-tap="{{ toggleAnnotationTools }}"><core-icon icon="article:comment"></core-icon></span>
+        <template if="{{ publonsURL }}">
+          <a class="article-tool" hidden?="{{ hideAnnotationTools }}" target="_blank"
+            title="Review this article in Publons"
+            href="{{ publonsURL }}"><span class="article-tool-text">Review in Publons</span></a>
+        </template>
       </div>
 
       <div layout horizontal class="article-tools article-tools-share">
@@ -89,6 +97,18 @@ Element providing tools relating to an article.
 
         this.hypothesisURL = 'https://via.hypothes.is/' + this.url;
         this.geniusURL = 'https://genius.it/' + this.url;
+
+        var meta = {
+          doi: $('meta[name=citation_doi]').attr('content'),
+          title: $('header h1').text()
+        };
+
+        if (meta.doi && meta.title) {
+          this.publonsURL = 'https://publons.com/review/create/post/?' + $.param({
+            article_doi: meta.doi,
+            article_title: meta.title,
+          })
+        }
       }
     });
   </script>
