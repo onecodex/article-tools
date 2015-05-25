@@ -1,29 +1,5 @@
 :host {
-  display: block;
-  vertical-align: middle;
-  width: 100%;
-  padding: 0;
-}
-
-@media screen and (min-width: 768px) {
-  :host {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    width: auto;
-    padding: 0 2rem;
-  }
-}
-
-.article-tools {
-  vertical-align: middle;
-}
-
-.article-tool-control,
-.article-tools-share .article-tool {
-  padding-top: 1rem;
-  padding-bottom: 1rem;
+  display: inline-block;
 }
 
 .article-tool {
@@ -31,26 +7,9 @@
   border-radius: 2px;
 }
 
-.article-tool-text {
-  display: inline-block;
-  padding: 5px 5px;
-  line-height: 4rem;
-  margin-right: 2px;
-  margin-left: 2px;
-  font-weight: 200;
-  color: #444;
-}
-
-.article-tool:hover .article-tool-text {
-  background: #92C029;
-  color: white;
-}
-
 .article-tool core-icon {
   color: #777;
   cursor: pointer;
-  width: 3rem;
-  height: 3rem;
 }
 
 .article-tool-control core-icon {
