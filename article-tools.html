@@ -19,13 +19,15 @@ Element providing tools relating to an article.
   <template>
     <link rel="stylesheet" href="article-tools.css">
 
-    <div layout horizontal end-justified>
-      <div layout vertical class="article-tools article-tools-annotate">
-        <div layout horizontal end-justified>
-          <span class="article-tool article-tool-control" hidden?="{{ !hideShareTools }}"
-            title="Annotate this article"
-            on-tap="{{ toggleAnnotationTools }}"><core-icon icon="article:comment"></core-icon></span>
-        </div>
+    <div layout horizontal>
+      <div flex layout horizontal start-justified class="article-tools article-tools-annotate"
+        on-mouseover="{{ showAnnotationTools }}"
+        on-mouseout="{{ unShowAnnotationTools }}"
+        hidden?="{{ !hideShareTools }}">
+
+        <span class="article-tool article-tool-control"
+          title="Annotate this article"
+          on-tap="{{ toggleAnnotationTools }}"><core-icon icon="article:comment"></core-icon></span>
 
         <a class="article-tool" hidden?="{{ hideAnnotationTools }}" target="_blank"
           title="Annotate this article with hypothes.is"
@@ -42,7 +44,15 @@ Element providing tools relating to an article.
         </template>
       </div>
 
-      <div layout horizontal class="article-tools article-tools-share">
+      <div flex layout horizontal end-justified class="article-tools article-tools-share"
+        on-mouseover="{{ showShareTools }}"
+        on-mouseout="{{ unShowShareTools }}"
+        hidden?="{{ !hideAnnotationTools }}">
+
+        <a class="article-tool" hidden?="{{ hideShareTools }}" target="_blank"
+          title="Email this article"
+          href="{{ emailURL }}"><core-icon icon="article:email"></core-icon></a>
+
         <a class="article-tool" hidden?="{{ hideShareTools }}" target="_blank"
           title="Share this article on Twitter"
           href="{{ twitterURL }}"><core-icon icon="article:post-twitter"></core-icon></a>
@@ -71,6 +81,13 @@ Element providing tools relating to an article.
     Polymer({
       hideShareTools: true,
       hideAnnotationTools: true,
+      calculateWidth: function() {
+        this.style.right = $('html /deep/ .column-main').css('right');
+      },
+      domReady: function() {
+        this.calculateWidth();
+        $(window).on('resize', this.calculateWidth.bind(this));
+      },
       toggleShareTools: function() {
         this.hideAnnotationTools = true;
         this.hideShareTools = !this.hideShareTools;
@@ -78,6 +95,20 @@ Element providing tools relating to an article.
       toggleAnnotationTools: function() {
         this.hideShareTools = true;
         this.hideAnnotationTools = !this.hideAnnotationTools;
+      },
+      showShareTools: function() {
+        this.hideAnnotationTools = true;
+        this.hideShareTools = false;
+      },
+      showAnnotationTools: function() {
+        this.hideShareTools = true;
+        this.hideAnnotationTools = false;
+      },
+      unShowShareTools: function() {
+        this.hideShareTools = true;
+      },
+      unShowAnnotationTools: function() {
+        this.hideAnnotationTools = true;
       },
       urlChanged: function() {
         this.twitterURL = 'https://twitter.com/intent/tweet?' + $.param({
@@ -93,6 +124,11 @@ Element providing tools relating to an article.
           app_id: '374861959379602',
           display: 'popup',
           href: this.url,
+        });
+
+        // TODO: subject line, title and content?
+        this.emailURL = 'mailto:?' + $.param({
+          body: this.url
         });
 
         this.hypothesisURL = 'https://via.hypothes.is/' + this.url;
